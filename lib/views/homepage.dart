@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
               title: Text("Firebase TEST"),
             ),
             body: Center(
-              child: homeScreenController.isLoading.value
+              child: homeScreenController.isLoading.value == true
                   ? CircularProgressIndicator()
                   : Obx(()=>
                     ListView.separated(
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                         },
                         separatorBuilder: (BuildContext context, index) {
                           return Divider(thickness: 2, color: Colors.black);},
-                        itemCount: homeScreenController.wordList.length),
+                        itemCount: homeScreenController.wordList.value.length),
                   ),
             ),
           );
