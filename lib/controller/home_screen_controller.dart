@@ -5,6 +5,8 @@ import 'package:getxfirebasecrud/model/base_model.dart';
 class HomeScreenController extends GetxController {
   var isLoading = false.obs;
   var wordList = <WordModel>[].obs;
+  var isEditing = false.obs;
+  var cardHeight = 100.0.obs;
   Future<void> getData() async {
     try {
       QuerySnapshot words = await
