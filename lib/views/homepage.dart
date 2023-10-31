@@ -16,13 +16,20 @@ class HomePage extends StatelessWidget {
         builder: (homeScreenController) {
           homeScreenController.getData();
           return Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                //homeScreenController.SendData();
+                //homeScreenController.UpdateData();
+              },
+              child: const Icon(Icons.add),
+            ),
             appBar: AppBar(
               backgroundColor: Colors.yellow,
               title: Text("Firebase TEST"),
             ),
             body: Center(
               child: homeScreenController.isLoading.value == true
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : Obx(
                       () => ListView.separated(
                           itemBuilder: (BuildContext context, index) {
@@ -41,10 +48,16 @@ class HomePage extends StatelessWidget {
                                         children: [
                                           Column(
                                             children: [
-                                              Text(homeScreenController
-                                                  .wordList[index].title, style: TextStyle(fontSize: 24),),
-                                              Text(homeScreenController
-                                                  .wordList[index].meaning,style: TextStyle(fontSize: 24)),
+                                              Text(
+                                                homeScreenController
+                                                    .wordList[index].title!,
+                                                style: TextStyle(fontSize: 24),
+                                              ),
+                                              Text(
+                                                  homeScreenController
+                                                      .wordList[index].meaning!,
+                                                  style:
+                                                      TextStyle(fontSize: 24)),
                                             ],
                                           ),
                                           const SizedBox(
@@ -53,7 +66,7 @@ class HomePage extends StatelessWidget {
                                           Visibility(
                                             visible: homeScreenController
                                                 .isEditing.value,
-                                            child: const Expanded(
+                                            child: Expanded(
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -80,6 +93,20 @@ class HomePage extends StatelessWidget {
                                                               "Update Meaning"),
                                                     ),
                                                   ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  FloatingActionButton(
+                                                      onPressed: () {
+                                                        homeScreenController.UpdateData(
+                                                            homeScreenController
+                                                                .wordList[
+                                                                    index]
+                                                                .id!
+                                                        );
+                                                      },
+                                                      child: const Icon(
+                                                          Icons.save)),
                                                 ],
                                               ),
                                             ),
@@ -104,7 +131,6 @@ class HomePage extends StatelessWidget {
                                                               .isEditing.value
                                                           ? 150
                                                           : 100;
-
                                                   print(homeScreenController
                                                       .isEditing.value);
                                                   // homeScreenController.updateData(
@@ -114,7 +140,7 @@ class HomePage extends StatelessWidget {
                                                 icon: const Icon(Icons.update),
                                               ),
                                             ],
-                                          )
+                                          ),
                                         ],
                                       ),
                                     ),

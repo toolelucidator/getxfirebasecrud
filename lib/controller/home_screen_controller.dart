@@ -7,18 +7,41 @@ class HomeScreenController extends GetxController {
   var wordList = <WordModel>[].obs;
   var isEditing = false.obs;
   var cardHeight = 100.0.obs;
+
   Future<void> getData() async {
     try {
-      QuerySnapshot words = await
-      FirebaseFirestore.instance.collection('word_bank').orderBy('title').get();
+      QuerySnapshot words = await FirebaseFirestore.instance
+          .collection('word_bank')
+          .orderBy('title')
+          .get();
       wordList.clear();
-      for (var word in words.docs) {
-        wordList.add(WordModel(word['title'], word['meaning'], word['id']));
-      }
+      words.docs.forEach((element) {
+        //wordList.add(WordModel.fromJson(element.data()));
+        wordList
+            .add(WordModel(element['title'], element['meaning'], element.id));
+        print(element.id);
+      });
+      //for (var word in words.docs) {
+      //wordList.add(WordModel(word['title'], word['meaning'], word['id']));
+      //}
       isLoading.value = false;
-    }
-    catch (e) {
+    } catch (e) {
       Get.snackbar("Error", '${e.toString()}');
     }
+  }
+
+  Future<void> SendData() async {
+    var collection = FirebaseFirestore.instance.collection('word_bank');
+    WordModel someData = WordModel('title', 'meaning', 'id');
+    collection.add(someData.toJson());
+  }
+
+  Future<void> UpdateData(String docId) async {
+    WordModel someData = WordModel('this is an update', 'meaning', docId);
+
+    var collection = FirebaseFirestore.instance.collection('word_bank');
+    collection
+        .doc(docId) // <-- Doc ID where data should be updated.
+        .update(someData.toJson());
   }
 }
